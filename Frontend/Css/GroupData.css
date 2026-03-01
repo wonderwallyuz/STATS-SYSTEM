@@ -1,0 +1,342 @@
+
+        :root {
+            --bg-color: rgb(220, 230, 240);
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-light: #777;
+            --primary-accent: rgb(38, 166, 154); /* Teal/Cyan for buttons and headers */
+            --secondary-green: #a5d6a7; /* Light Green for Median */
+            --border-color: #e0e0e0;
+            --danger-text: #e53935;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-icon {
+            margin-left: 10px;
+            font-size: 20px;
+            color: var(--primary-accent);
+        }
+
+        .calculator-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .panel {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+        }
+
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .panel-header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .settings-icon {
+            font-size: 18px;
+            color: var(--primary-accent);
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .input-group span {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: -3px;
+        }
+
+        .input-field {
+            background-color: rgb(238, 245, 250);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .add-row-btn {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .added-intervals {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .added-intervals table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .added-intervals th, .added-intervals td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .added-intervals th {
+            background-color: #f9f9f9;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .added-intervals td {
+            font-size: 14px;
+        }
+
+        .action-icon {
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .icon-edit {
+            color: var(--primary-accent);
+        }
+
+        .icon-trash {
+            color: var(--danger-text);
+        }
+
+        .lower-limit-btn {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: center;
+            align-self: flex-start;
+        }
+
+        .clear-all-btn {
+            color: var(--danger-text);
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        .total-frequency-card {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .total-frequency-title {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .total-frequency-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .results-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .result-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .result-card {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .result-formula {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* Unique card styles */
+        .card-mean {
+            border-top: 4px solid var(--primary-accent);
+        }
+
+        .card-median {
+            border-top: 4px solid var(--secondary-green);
+        }
+
+        .card-mode {
+            border-top: 4px solid #bdbdbd; /* Gray */
+        }
+
+        /* Custom placement for results grid to match image */
+        .result-card.mean { grid-column: 1; grid-row: 1; }
+        .result-card.median { grid-column: 2; grid-row: 1; }
+        .result-card.mode { grid-column: 3; grid-row: 1; }
+        .result-card.variance { grid-column: 1; grid-row: 2; }
+        .result-card.sd { grid-column: 2; grid-row: 2; }
+
+        .note {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        .auto-table-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .auto-table-section h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .auto-table {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .auto-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .auto-table th, .auto-table td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+        }
+
+        .auto-table th {
+            background-color: #f9f9f9;
+            color: var(--text-light);
+        }
+
+        .auto-table td {
+            color: var(--text-main);
+        }
+
+        .edit-in-table {
+            font-size: 12px;
+            color: var(--primary-accent);
+            cursor: pointer;
+            margin-left: 3px;
+        }
+
+        .final-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .generate-btn {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
