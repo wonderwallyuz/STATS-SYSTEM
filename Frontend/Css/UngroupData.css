@@ -1,0 +1,501 @@
+/* --- Global Styles --- */
+:root {
+    --bg-color: rgb(220, 230, 240);
+    --text-color: #2d3748;
+    --card-bg: #ffffff;
+    --teal-primary: #319795;
+    --teal-dark: #2c7a7b;
+    --soft-green: #e6fffa;
+    --light-grey: #edf2f7;
+    --medium-grey: #e2e8f0;
+    --border-grey: #e2e8f0;
+    --remove-red: #e53e3e;
+    --edit-teal: #319795;
+    --badge-red: #fef2f2;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    color: #1a202c;
+}
+
+/* --- Container --- */
+.calculator-wrapper {
+    width: 100%;
+    max-width: 1200px;
+}
+
+.main-header h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* --- Panels Layout --- */
+.panels-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.panel {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 24px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.settings-icon {
+    font-size: 16px;
+    color: #a0aec0;
+    cursor: pointer;
+}
+
+/* --- Input Panel --- */
+.input-form {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.form-group .subtext {
+    font-size: 12px;
+    color: #718096;
+    margin: 0 0 8px 0;
+}
+
+.input-form input {
+    border: 1px solid var(--border-grey);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    color: var(--text-color);
+    width: 180px;
+}
+
+.add-value-btn {
+    background-color: var(--teal-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* --- Data Set Section --- */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.total-values-badge {
+    background-color: #cbd5e0;
+    color: #2d3748;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--border-grey);
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.data-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border-grey);
+}
+
+.data-item:last-child {
+    border-bottom: none;
+}
+
+.data-item .value {
+    font-size: 16px;
+    color: #1a202c;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+}
+
+.edit {
+    color: var(--edit-teal);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.remove {
+    color: var(--remove-red);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* --- Action Buttons --- */
+.action-buttons {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sort-btn {
+    background-color: var(--teal-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+}
+
+.clear-btn {
+    background-color: transparent;
+    color: var(--remove-red);
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: center;
+}
+
+/* --- Formulas Card --- */
+.formulas-card {
+    background-color: #f0fff4;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 24px;
+    border: 1px solid #c6f6d5;
+}
+
+.formulas-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #276749;
+    margin-bottom: 10px;
+}
+
+.formulas-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.formulas-card li {
+    font-size: 11px;
+    margin-bottom: 5px;
+    color: #1a202c;
+}
+
+.formula-label {
+    font-weight: 600;
+}
+
+.formula-math {
+    color: #276749;
+    float: right;
+}
+
+/* --- Results Panel --- */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.result-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-grey);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result-card .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a0aec0;
+    margin-bottom: 4px;
+}
+
+.result-card .value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+/* --- Special Result Cards --- */
+.result-card.mean {
+    border-top: 4px solid var(--teal-primary);
+}
+
+.result-card.median {
+    background-color: var(--soft-green);
+    border-top: 4px solid #a5d6a7;
+}
+
+.result-card.median .value {
+    color: #276749;
+}
+
+.result-card.quartiles {
+    grid-column: span 3;
+    padding: 15px 20px;
+}
+
+.result-card.quartiles .label {
+    margin-bottom: 10px;
+}
+
+.q-values {
+    display: flex;
+    gap: 10px;
+}
+
+.q-box {
+    border-radius: 8px;
+    padding: 8px 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.q-box .q-label {
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.q-box .q-val {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.q-box.q1 { background-color: #ebf8ff; color: #2c5282; }
+.q-box.q2 { background-color: var(--soft-green); color: #276749; }
+.q-box.q3 { background-color: #edf2f7; color: #2d3748; }
+
+/* --- Display Settings --- */
+.display-settings h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: #718096;
+    margin-bottom: 15px;
+}
+
+.toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.toggle-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toggle-label {
+    font-size: 12px;
+    color: #1a202c;
+}
+
+/* --- Frequency Table Card --- */
+.frequency-table-card {
+    border: 1px solid var(--border-grey);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 24px;
+}
+
+.frequency-table-card h3 {
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 10px;
+}
+
+.frequency-table-card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.frequency-table-card th {
+    text-align: left;
+    color: #718096;
+    padding: 8px;
+    border-bottom: 1px solid var(--border-grey);
+}
+
+.frequency-table-card td {
+    padding: 8px;
+    border-bottom: 1px solid var(--border-grey);
+}
+
+.frequency-table-card tr:last-child td {
+    border-bottom: none;
+}
+
+/* --- Solution Details (Step-by-Step) --- */
+.solution-details {
+    margin-bottom: 24px;
+}
+
+.median-steps {
+    border-left: 3px solid var(--teal-primary);
+    padding-left: 15px;
+}
+
+.median-steps h4 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.steps-list li {
+    font-size: 12px;
+    margin-bottom: 6px;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.steps-list .icon {
+    font-size: 12px;
+    color: var(--teal-primary);
+}
+
+/* --- Calculate Button --- */
+.calculate-btn {
+    background-color: var(--teal-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* --- Slider/Switch Design --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 18px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .2s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .2s;
+}
+
+input:checked + .slider {
+    background-color: var(--teal-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(16px);
+}
+
+.slider.round {
+    border-radius: 18px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
