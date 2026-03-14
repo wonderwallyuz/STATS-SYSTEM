@@ -11,7 +11,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Poppins", sans-serif;
             margin: 0;
             padding: 20px;
             background-color: var(--bg-color);
@@ -75,8 +75,9 @@
 
         .form-section {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: flex-end;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .input-group {
@@ -85,23 +86,46 @@
             gap: 5px;
         }
 
-        .input-group label {
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .input-group span {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: -3px;
-        }
-
         .input-field {
             background-color: rgb(238, 245, 250);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 10px;
             font-size: 14px;
+            width: 170px;
+        }
+        .input-group label { 
+            font-size: 14px; 
+            font-weight: bold; 
+        }
+
+        .input-group span { 
+            font-size: 12px; 
+            color: var(--text-light); 
+            margin-top: -3px; 
+        }
+
+        .import-excel-btn {
+            background-color: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .excel-error-box {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border: 1px solid #e57373;
+            background: #fdecea;
+            color: #b00020;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .add-row-btn {
@@ -109,11 +133,12 @@
             color: white;
             border: none;
             border-radius: 8px;
-            padding: 12px;
+            padding: 12px 20px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
+            white-space: nowrap;
         }
 
         .added-intervals {
@@ -340,3 +365,21 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
+.graph-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.graph-card {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.graph-card canvas {
+    width: 100% !important;
+    max-height: 350px;
+}

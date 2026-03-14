@@ -27,6 +27,16 @@
                         <input type="text" placeholder="e.g., 12">
                     </div>
                     <button class="add-value-btn">Add Value</button>
+
+                     <button class="import-excel-btn" onclick="document.getElementById('excelFile').click()">
+        Import Excel
+    </button>
+
+    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden>
+
+</div>
+
+<div id="excelError" class="excel-error-box"></div>
                 </div>
 
                 <div class="data-set-section">
@@ -223,6 +233,6 @@
             </div>
         </div>
     </div>
-
+<script src="../Js/UngroupData.js"></script>
 </body>
 </html>

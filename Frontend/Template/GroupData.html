@@ -9,6 +9,9 @@
     <!-- Css -->
     <link rel="stylesheet" href="../Css/GroupData.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
 </head>
 <body>
 
@@ -24,29 +27,40 @@
                 <span class="settings-icon">⚙️</span>
             </div>
 
-            <div class="form-section">
+           <div class="form-section">
                 <div class="input-group">
                     <label>Lower Class Limit</label>
                     <span>Type an input</span>
-                    <input type="text" class="input-field" value="10-19">
-                </div>
+                    <input type="number" id="lowerLimit" class="input-field" placeholder="ex.10">
+                 </div>
+
                 <div class="input-group">
                     <label>Upper Class Limit</label>
                     <span>Type an input</span>
-                    <input type="text" class="input-field" value="20-29">
+                    <input type="number" id="upperLimit" class="input-field" placeholder="ex.19">
                 </div>
+
                 <div class="input-group">
                     <label>Frequency (f)</label>
                     <span>Type an input number</span>
-                    <input type="text" class="input-field" value="5">
+                    <input type="number" id="frequency" class="input-field" placeholder="ex.5">
                 </div>
-                <button class="add-row-btn">Add Row</button>
+
+                <button class="add-row-btn" onclick="addRow()">Add Row</button>
+
+                <div class="excel-import-section">
+                    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden>
+                    <button class="import-excel-btn" onclick="document.getElementById('excelFile').click()">
+                        Import Excel
+                    </button>
+                <div id="excelError" class="excel-error-box"></div>
+                </div>
             </div>
 
             <div class="added-intervals">
                 <div class="panel-header">
                     <h3>Added Intervals</h3>
-                    <span>Total values: 6</span>
+                    <span id="totalValues">Total values: 0</span>
                 </div>
                 <table>
                     <thead>
@@ -56,32 +70,27 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>10-19</td>
-                            <td>5</td>
-                            <td><span class="action-icon icon-edit">✏️</span> <span class="action-icon icon-trash">🗑️</span></td>
-                        </tr>
-                        <tr>
-                            <td>20-29</td>
-                            <td>8</td>
-                            <td><span class="action-icon icon-edit">✏️</span> <span class="action-icon icon-trash">🗑️</span></td>
-                        </tr>
-                        <tr>
-                            <td>30-39</td>
-                            <td>6</td>
-                            <td><span class="action-icon icon-edit">✏️</span> <span class="action-icon icon-trash">🗑️</span></td>
-                        </tr>
-                    </tbody>
+
+
+                <tbody id="addedIntervalsBody">
+                    <tr id="noDataRow">
+                        <td colspan="3" style="text-align:center; color:#888;">
+                            No data input yet
+                        </td>
+                    </tr>
+                </tbody>
+
+
+
                 </table>
             </div>
 
-            <button class="lower-limit-btn">Sort by Lower Limit</button>
-            <button class="clear-all-btn">Clear All</button>
+            <button class="lower-limit-btn" onclick="sortByLowerLimit()">Sort by Lower Limit</button>
+            <button class="clear-all-btn" onclick="clearAllData()">Clear All</button>
 
             <div class="total-frequency-card">
                 <div class="total-frequency-title">Total Frequency:</div>
-                <div class="total-frequency-value">19</div>
+                <div class="total-frequency-value" id="totalFrequency">0</div>
             </div>
         </div>
 
@@ -184,11 +193,33 @@
                 </div>
             </div>
 
+            
+
             <div class="final-actions">
                 <button class="generate-btn">Generate Analysis</button>
             </div>
+
+            <div class="graph-section">
+                <div class="panel-header">
+                    <h2>4. GROUPED DATA GRAPH</h2>
+                    <span class="settings-icon">📊</span>
+                </div>
+            <div class="graph-card">
+                <div id="noGraphData" style="text-align:center;color:#888;padding-top:120px;">
+        No data input yet
+    </div>
+                <canvas id="groupedBarChart">
+                    
+                </canvas>
+                
+            </div>
+            </div> 
+            
+            
         </div>
     </div>
 
+
+<script src="../Js/GroupData.js"></script>
 </body>
 </html>
