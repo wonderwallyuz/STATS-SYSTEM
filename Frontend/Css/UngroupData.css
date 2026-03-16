@@ -1,6 +1,6 @@
 /* --- Global Styles --- */
 :root {
-    --bg-color: rgb(220, 230, 240);
+    --bg-color: rgb(228, 238, 242);
     --text-color: #2d3748;
     --card-bg: #ffffff;
     --teal-primary: #319795;
@@ -11,7 +11,13 @@
     --border-grey: #e2e8f0;
     --remove-red: #e53e3e;
     --edit-teal: #319795;
-    --badge-red: #fef2f2;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    height: 100%;
+    overflow: hidden;
 }
 
 body {
@@ -19,90 +25,101 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 20px;
+    padding: 16px;
     display: flex;
     justify-content: center;
-}
-
-h1, h2, h3, h4 {
-    margin: 0;
-    color: #1a202c;
-}
-
-/* --- Container --- */
-.calculator-wrapper {
-    width: 100%;
-    max-width: 1200px;
-}
-
-.main-header h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-weight: 700;
-}
-
-/* --- Panels Layout --- */
-.panels-container {
-    display: flex;
-    gap: 20px;
     align-items: flex-start;
 }
 
+h1, h2, h3, h4 { margin: 0; color: #1a202c; }
+
+/* --- Wrapper fills the viewport --- */
+.calculator-wrapper {
+    width: 100%;
+    max-width: 1600px;
+    height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.main-header h1 { font-size: 22px; font-weight: 700; }
+
+/* --- 3-column panels layout --- */
+.panels-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* --- Panels --- */
 .panel {
     background-color: var(--card-bg);
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    padding: 24px;
-    flex: 1;
-    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+    min-height: 0;
 }
+
+.panel::-webkit-scrollbar { width: 4px; }
+.panel::-webkit-scrollbar-track { background: transparent; }
+.panel::-webkit-scrollbar-thumb { background: var(--border-grey); border-radius: 4px; }
 
 .panel-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    flex-shrink: 0;
 }
 
 .panel-header h2 {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 700;
     color: #4a5568;
+    letter-spacing: 0.04em;
 }
 
-.settings-icon {
-    font-size: 16px;
-    color: #a0aec0;
-    cursor: pointer;
-}
-
-/* --- Input Panel --- */
+/* ─────────────────────────────────────
+   PANEL 1 — INPUT
+───────────────────────────────────── */
 .input-form {
     display: flex;
-    gap: 15px;
-    margin-bottom: 24px;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 .form-group label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .form-group .subtext {
-    font-size: 12px;
+    font-size: 11px;
     color: #718096;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
 }
 
 .input-form input {
     border: 1px solid var(--border-grey);
     border-radius: 8px;
-    padding: 10px;
-    font-size: 14px;
+    padding: 9px 10px;
+    font-size: 13px;
     color: var(--text-color);
-    width: 180px;
+    width: 160px;
+}
+
+.button-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+    flex-shrink: 0;
 }
 
 .add-value-btn {
@@ -110,23 +127,31 @@ h1, h2, h3, h4 {
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 9px 16px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    align-self: flex-end;
+    white-space: nowrap;
 }
 
-/* --- Data Set Section --- */
+/* Data Set — grows to fill space; list scrolls only when content overflows */
+.data-set-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .section-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
 .section-header h3 {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
     color: #4a5568;
 }
@@ -134,64 +159,83 @@ h1, h2, h3, h4 {
 .total-values-badge {
     background-color: #cbd5e0;
     color: #2d3748;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
-    padding: 4px 8px;
+    padding: 3px 8px;
     border-radius: 12px;
 }
 
+/* No fixed max-height — list grows until panel is full, then scrolls */
 .data-list {
     list-style: none;
     padding: 0;
     margin: 0;
     border: 1px solid var(--border-grey);
     border-radius: 8px;
-    max-height: 250px;
+    flex: 1;
+    min-height: 0;
     overflow-y: auto;
 }
+
+.data-list::-webkit-scrollbar { width: 4px; }
+.data-list::-webkit-scrollbar-track { background: transparent; }
+.data-list::-webkit-scrollbar-thumb { background: var(--border-grey); border-radius: 4px; }
 
 .data-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 15px;
+    padding: 9px 12px;
     border-bottom: 1px solid var(--border-grey);
 }
 
-.data-item:last-child {
-    border-bottom: none;
-}
+.data-item:last-child { border-bottom: none; }
 
 .data-item .value {
-    font-size: 16px;
+    font-size: 14px;
     color: #1a202c;
 }
 
+/* Edit & Remove — equal fixed width */
 .actions {
     display: flex;
-    gap: 15px;
+    gap: 6px;
+}
+
+.edit,
+.remove,
+.remove-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    padding: 5px 0;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
 .edit {
     color: var(--edit-teal);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
+    background-color: #e6fffa;
+    border-color: #b2f5ea;
 }
 
-.remove {
+.remove,
+.remove-btn {
     color: var(--remove-red);
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
+    background-color: #fff5f5;
+    border-color: #fed7d7;
 }
 
-/* --- Action Buttons --- */
+/* Action Buttons */
 .action-buttons {
-    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
+    flex-shrink: 0;
 }
 
 .sort-btn {
@@ -199,8 +243,8 @@ h1, h2, h3, h4 {
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 12px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     text-align: center;
@@ -217,20 +261,20 @@ h1, h2, h3, h4 {
     align-self: center;
 }
 
-/* --- Formulas Card --- */
+/* Formulas Card */
 .formulas-card {
     background-color: #f0fff4;
     border-radius: 8px;
-    padding: 15px;
-    margin-top: 24px;
+    padding: 12px 14px;
     border: 1px solid #c6f6d5;
+    flex-shrink: 0;
 }
 
 .formulas-card h4 {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     color: #276749;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .formulas-card ul {
@@ -241,139 +285,96 @@ h1, h2, h3, h4 {
 
 .formulas-card li {
     font-size: 11px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     color: #1a202c;
+    display: flex;
+    justify-content: space-between;
 }
 
-.formula-label {
-    font-weight: 600;
-}
+.formula-label { font-weight: 600; }
+.formula-math  { color: #276749; }
 
-.formula-math {
-    color: #276749;
-    float: right;
-}
 
-/* --- Results Panel --- */
+
+/* ─────────────────────────────────────
+   PANEL 2 — RESULTS
+───────────────────────────────────── */
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .result-card {
     background-color: var(--card-bg);
     border: 1px solid var(--border-grey);
     border-radius: 12px;
-    padding: 15px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .result-card .label {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     color: #a0aec0;
     margin-bottom: 4px;
+    letter-spacing: 0.03em;
 }
 
 .result-card .value {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
     color: #1a202c;
+    line-height: 1.1;
 }
 
-/* --- Special Result Cards --- */
-.result-card.mean {
-    border-top: 4px solid var(--teal-primary);
-}
+.result-card.mean { border-top: 4px solid var(--teal-primary); }
 
 .result-card.median {
     background-color: var(--soft-green);
     border-top: 4px solid #a5d6a7;
 }
+.result-card.median .value { color: #276749; }
 
-.result-card.median .value {
-    color: #276749;
+/* ─────────────────────────────────────
+   PANEL 3 — VISUALIZATION
+───────────────────────────────────── */
+.graph-card {
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid var(--border-grey);
+    padding: 14px;
+    flex-shrink: 0;
 }
 
-.result-card.quartiles {
-    grid-column: span 3;
-    padding: 15px 20px;
-}
-
-.result-card.quartiles .label {
-    margin-bottom: 10px;
-}
-
-.q-values {
-    display: flex;
-    gap: 10px;
-}
-
-.q-box {
-    border-radius: 8px;
-    padding: 8px 12px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.q-box .q-label {
+.graph-card h3 {
     font-size: 11px;
-    font-weight: 600;
-}
-
-.q-box .q-val {
-    font-size: 20px;
     font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.q-box.q1 { background-color: #ebf8ff; color: #2c5282; }
-.q-box.q2 { background-color: var(--soft-green); color: #276749; }
-.q-box.q3 { background-color: #edf2f7; color: #2d3748; }
-
-/* --- Display Settings --- */
-.display-settings h3 {
-    font-size: 12px;
-    font-weight: 700;
-    color: #718096;
-    margin-bottom: 15px;
+.chart-wrapper {
+    position: relative;
+    height: 200px;
+    width: 100%;
 }
 
-.toggles {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-
-.toggle-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.toggle-label {
-    font-size: 12px;
-    color: #1a202c;
-}
-
-/* --- Frequency Table Card --- */
 .frequency-table-card {
     border: 1px solid var(--border-grey);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 24px;
+    border-radius: 10px;
+    padding: 12px;
+    flex-shrink: 0;
 }
 
 .frequency-table-card h3 {
-    font-size: 14px;
+    font-size: 13px;
     color: #4a5568;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .frequency-table-card table {
@@ -385,32 +386,29 @@ h1, h2, h3, h4 {
 .frequency-table-card th {
     text-align: left;
     color: #718096;
-    padding: 8px;
+    padding: 6px 8px;
     border-bottom: 1px solid var(--border-grey);
+    font-weight: 600;
 }
 
 .frequency-table-card td {
-    padding: 8px;
+    padding: 6px 8px;
     border-bottom: 1px solid var(--border-grey);
 }
 
-.frequency-table-card tr:last-child td {
-    border-bottom: none;
-}
+.frequency-table-card tr:last-child td { border-bottom: none; }
 
-/* --- Solution Details (Step-by-Step) --- */
-.solution-details {
-    margin-bottom: 24px;
-}
+.solution-details { flex-shrink: 0; }
 
 .median-steps {
     border-left: 3px solid var(--teal-primary);
-    padding-left: 15px;
+    padding-left: 12px;
 }
 
 .median-steps h4 {
-    font-size: 14px;
-    margin-bottom: 8px;
+    font-size: 13px;
+    margin-bottom: 6px;
+    font-weight: 600;
 }
 
 .steps-list {
@@ -421,11 +419,11 @@ h1, h2, h3, h4 {
 
 .steps-list li {
     font-size: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
     color: #4a5568;
     display: flex;
-    align-items: center;
-    gap: 8px;
+    align-items: flex-start;
+    gap: 6px;
 }
 
 .steps-list .icon {
@@ -433,102 +431,46 @@ h1, h2, h3, h4 {
     color: var(--teal-primary);
 }
 
-/* --- Calculate Button --- */
-.calculate-btn {
-    background-color: var(--teal-primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 15px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
+/* ─────────────────────────────────────
+   SLIDER / SWITCH
+───────────────────────────────────── */
+.switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .2s; }
+.slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px; background-color: white; transition: .2s; }
+input:checked + .slider { background-color: var(--teal-primary); }
+input:checked + .slider:before { transform: translateX(16px); }
+.slider.round { border-radius: 18px; }
+.slider.round:before { border-radius: 50%; }
+
+/* ─────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────── */
+@media (max-width: 1100px) {
+    html, body { overflow: auto; }
+    .calculator-wrapper { height: auto; }
+    .panels-container { grid-template-columns: 1fr 1fr; }
+    .panel { overflow-y: visible; }
+    .data-list { max-height: 200px; }
+    .visual-panel { grid-column: span 2; }
+}
+
+@media (max-width: 680px) {
+    .panels-container { grid-template-columns: 1fr; }
+    .visual-panel { grid-column: span 1; }
+}
+
+/* Empty state placeholder in data list */
+.data-list .empty-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 120px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #a0aec0;
     text-align: center;
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* --- Slider/Switch Design --- */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 34px;
-    height: 18px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .2s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 2px;
-    bottom: 2px;
-    background-color: white;
-    transition: .2s;
-}
-
-input:checked + .slider {
-    background-color: var(--teal-primary);
-}
-
-input:checked + .slider:before {
-    transform: translateX(16px);
-}
-
-.slider.round {
-    border-radius: 18px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-
-
-/*MAO NI SA GRAPH */
-
-
-
-/* --- Professional Chart.js Graph Styles --- */
-.graph-card {
-    background: #ffffff;
-    padding: 24px;
-    border-radius: 12px;
-    border: 1px solid var(--border-grey); /* Matches your panel borders */
-    margin-bottom: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-.graph-card h3 {
-    font-size: 14px;
-    font-weight: 700;
-    color: #4a5568;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* This wrapper ensures the graph has the right height and professional padding */
-.chart-wrapper {
-    position: relative;
-    height: 300px; 
-    width: 100%;
-    padding: 10px;
+    pointer-events: none;
+    user-select: none;
 }

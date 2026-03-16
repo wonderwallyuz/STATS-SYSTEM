@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ungrouped Data Statistics Calculator</title>
@@ -17,10 +16,11 @@
         </header>
 
         <div class="panels-container">
+
+            <!-- ── PANEL 1: DATA INPUT ── -->
             <div class="panel input-panel">
                 <div class="panel-header">
                     <h2>1. DATA INPUT</h2>
-                    <span class="settings-icon">⚙️</span>
                 </div>
 
                 <div class="input-form">
@@ -32,23 +32,19 @@
 
                     <div class="button-row" style="display: flex; gap: 10px;">
                         <button class="add-value-btn">Add Value</button>
-
                         <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv" style="display: none;">
-        
                         <button type="button" class="add-value-btn" onclick="document.getElementById('excel-upload').click()">
-                         Import Excel
+                            Import Excel
                         </button>
                     </div>
-        </div>
+                </div>
 
                 <div class="data-set-section">
                     <div class="section-header">
                         <h3>Current Data Set</h3>
                         <span class="total-values-badge">Total values: 0</span>
                     </div>
-                    
-                    <ul class="data-list">
-                        </ul>
+                    <ul class="data-list"></ul>
                 </div>
 
                 <div class="action-buttons">
@@ -70,10 +66,10 @@
 
             </div>
 
+            <!-- ── PANEL 2: CALCULATED RESULTS ── -->
             <div class="panel results-panel">
                 <div class="panel-header">
                     <h2>2. CALCULATED RESULTS</h2>
-                    <span class="settings-icon">⚙️</span>
                 </div>
 
                 <div class="results-grid">
@@ -89,7 +85,6 @@
                         <span class="label">MODE (Mo)</span>
                         <span class="value">--</span>
                     </div>
-
                     <div class="result-card range">
                         <span class="label">RANGE (R)</span>
                         <span class="value">0</span>
@@ -102,7 +97,6 @@
                         <span class="label">POPULATION VARIANCE (σ²)</span>
                         <span class="value">0.00</span>
                     </div>
-
                     <div class="result-card sd">
                         <span class="label">SAMPLE STANDARD DEVIATION (s)</span>
                         <span class="value">0.00</span>
@@ -112,13 +106,21 @@
                         <span class="value">0.00</span>
                     </div>
                 </div>
-
-            <div class="graph-card">
-                <h3>DATA DISTRIBUTION GRAPH</h3>
-                <div class="chart-wrapper" style="position: relative; height: 300px; width: 100%;">
-                    <canvas id="frequencyChart"></canvas>
-                </div>
             </div>
+
+            <!-- ── PANEL 3: GRAPH, TABLE & MEDIAN ── -->
+            <div class="panel visual-panel">
+                <div class="panel-header">
+                    <h2>3. DATA VISUALIZATION</h2>
+                </div>
+
+                <div class="graph-card">
+                    <h3>DATA DISTRIBUTION GRAPH</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="frequencyChart"></canvas>
+                    </div>
+                </div>
+
                 <div class="frequency-table-card">
                     <h3>Frequency Table</h3>
                     <table>
@@ -128,23 +130,21 @@
                                 <th>Frequency</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
 
                 <div class="solution-details">
                     <div class="solution-item median-steps">
                         <h4>Median</h4>
-                        <ul class="steps-list">
-                            </ul>
+                        <ul class="steps-list"></ul>
                     </div>
                 </div>
-
-                <button class="calculate-btn">Calculate Statistics</button>
             </div>
+
         </div>
     </div>
-<script src="../Js/index.js"></script>
+
+    <script src="../Js/index.js"></script>
 </body>
 </html>

@@ -1,127 +1,137 @@
-// 1. Select the elements
+// ─────────────────────────────────────────────
+//  REFERENCES
+// ─────────────────────────────────────────────
 const inputField = document.querySelector('.form-group input');
-const addButton = document.querySelector('.add-value-btn');
-const dataList = document.querySelector('.data-list');
+const addButton  = document.querySelector('.add-value-btn');
+const dataList   = document.querySelector('.data-list');
 const totalBadge = document.querySelector('.total-values-badge');
 
-/**
- * Adds a new value to the list
- */
-function addValue() {
-    const value = inputField.value.trim();
+// ─────────────────────────────────────────────
+//  HELPERS
+// ─────────────────────────────────────────────
+function getNumbers() {
+    return Array.from(dataList.querySelectorAll('.data-item .value'))
+                .map(el => parseFloat(el.textContent));
+}
 
-    // Validation: Check if input is empty or not a number
-    if (value === "" || isNaN(value)) {
-        alert("Please enter a valid number");
-        return;
+function updateBadge() {
+    const count = dataList.querySelectorAll('.data-item').length;
+    totalBadge.textContent = `Total values: ${count}`;
+
+    // Empty state
+    let ph = dataList.querySelector('.empty-state');
+    if (count === 0) {
+        if (!ph) {
+            ph = document.createElement('li');
+            ph.className = 'empty-state';
+            ph.textContent = 'No Data Value Added';
+            dataList.appendChild(ph);
+        }
+    } else {
+        if (ph) ph.remove();
     }
+}
 
-    // Create the new list item
+function makeItem(val) {
     const li = document.createElement('li');
     li.className = 'data-item';
-
     li.innerHTML = `
-        <span class="value">${value}</span>
+        <span class="value">${val}</span>
         <div class="actions">
             <span class="edit">✏️ Edit</span>
-            <span class="remove-btn" style="cursor:pointer">🗑️ Remove</span>
-        </div>
-    `;
+            <span class="remove-btn">🗑️ Remove</span>
+        </div>`;
+    return li;
+}
 
-    // Add the new item to the list
-    dataList.appendChild(li);
-
-    // Clear and focus the input for the next entry
-    inputField.value = "";
+// ─────────────────────────────────────────────
+//  ADD
+// ─────────────────────────────────────────────
+function addValue() {
+    const raw = inputField.value.trim();
+    if (raw === '' || isNaN(raw)) { alert('Please enter a valid number'); return; }
+    dataList.appendChild(makeItem(raw));
+    inputField.value = '';
     inputField.focus();
-
-    // Update the "Total values" count
-    updateTotalCount();
+    updateBadge();
+    runCalculations();
 }
 
-/**
- * Updates the badge count based on current list items
- */
-function updateTotalCount() {
-    const count = document.querySelectorAll('.data-item').length;
-    totalBadge.textContent = `Total values: ${count}`;
-}
-
-// --- EVENT LISTENERS ---
-
-// Click event for Add Button
 addButton.addEventListener('click', addValue);
+inputField.addEventListener('keypress', e => { if (e.key === 'Enter') addValue(); });
 
-// "Enter" key event for Input Field
-inputField.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        addValue();
+// ─────────────────────────────────────────────
+//  REMOVE / EDIT  (event delegation)
+// ─────────────────────────────────────────────
+dataList.addEventListener('click', e => {
+    const item = e.target.closest('.data-item');
+    if (!item) return;
+
+    if (e.target.classList.contains('remove-btn')) {
+        item.remove();
+        updateBadge();
+        runCalculations();
     }
-});
 
-// Event Delegation for "Remove" and "Edit"
-dataList.addEventListener('click', (e) => {
-    // REMOVE LOGIC
-    if (e.target.classList.contains('remove-btn') || e.target.innerText.includes('Remove')) {
-        e.target.closest('.data-item').remove();
-        updateTotalCount();
-    }
-
-    // EDIT LOGIC
-    if (e.target.classList.contains('edit') || e.target.innerText.includes('Edit')) {
-        const item = e.target.closest('.data-item');
-        const valueToEdit = item.querySelector('.value').innerText;
-        inputField.value = valueToEdit;
+    if (e.target.classList.contains('edit')) {
+        inputField.value = item.querySelector('.value').textContent;
         item.remove();
         inputField.focus();
-        updateTotalCount();
+        updateBadge();
+        runCalculations();
     }
 });
 
-// Initialize count on load
-updateTotalCount();
+// ─────────────────────────────────────────────
+//  SORT
+// ─────────────────────────────────────────────
+function sortData(asc) {
+    const items = Array.from(dataList.querySelectorAll('.data-item'));
+    if (!items.length) return;
+    items.sort((a, b) => {
+        const diff = parseFloat(a.querySelector('.value').textContent)
+                   - parseFloat(b.querySelector('.value').textContent);
+        return asc ? diff : -diff;
+    });
+    items.forEach(el => el.remove());
+    items.forEach(el => dataList.appendChild(el));
+    runCalculations();
+}
 
-// EXCEL IMPORT FUNCTIONALITY
+document.querySelector('.sort-btn.ascending') .addEventListener('click', () => sortData(true));
+document.querySelector('.sort-btn.descending').addEventListener('click', () => sortData(false));
+
+// ─────────────────────────────────────────────
+//  CLEAR
+// ─────────────────────────────────────────────
+document.querySelector('.clear-btn').addEventListener('click', () => {
+    dataList.innerHTML = '';
+    updateBadge();
+    runCalculations();
+});
+
+// ─────────────────────────────────────────────
+//  EXCEL IMPORT
+// ─────────────────────────────────────────────
 const excelUpload = document.getElementById('excel-upload');
 if (excelUpload) {
-    excelUpload.addEventListener('change', function(e) {
+    excelUpload.addEventListener('change', function (e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function (ev) {
             try {
-                const data = new Uint8Array(event.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
-
-                const numbers = jsonData.flat().filter(val => {
-                    return val !== null && val !== "" && !isNaN(val) && typeof val !== 'boolean';
-                });
-
-                if (numbers.length === 0) {
-                    alert("No valid numbers found in this file.");
-                    return;
-                }
-
-                numbers.forEach(num => {
-                    const li = document.createElement('li');
-                    li.className = 'data-item';
-                    li.innerHTML = `
-                        <span class="value">${num}</span>
-                        <div class="actions">
-                            <span class="edit">✏️ Edit</span>
-                            <span class="remove-btn" style="cursor:pointer">🗑️ Remove</span>
-                        </div>
-                    `;
-                    dataList.appendChild(li);
-                });
-
-                updateTotalCount();
-            } catch (error) {
-                console.error("Excel Error:", error);
-                alert("Error reading file. Please use a standard .xlsx or .csv file.");
+                const wb  = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
+                const ws  = wb.Sheets[wb.SheetNames[0]];
+                const raw = XLSX.utils.sheet_to_json(ws, { header: 1 });
+                const nums = raw.flat().filter(v => v !== null && v !== '' && !isNaN(v) && typeof v !== 'boolean');
+                if (!nums.length) { alert('No valid numbers found.'); return; }
+                nums.forEach(n => dataList.appendChild(makeItem(n)));
+                updateBadge();
+                runCalculations();
+            } catch (err) {
+                console.error(err);
+                alert('Error reading file.');
             }
             excelUpload.value = '';
         };
@@ -129,64 +139,33 @@ if (excelUpload) {
     });
 }
 
-// SORTING LOGIC
-const sortAscBtn = document.querySelector('.sort-btn.ascending');
-const sortDescBtn = document.querySelector('.sort-btn.descending');
+// ─────────────────────────────────────────────
+//  CHART
+// ─────────────────────────────────────────────
+let myChart = null;
 
-function sortData(ascending = true) {
-    const items = Array.from(dataList.querySelectorAll('.data-item'));
-    if (items.length === 0) return;
-
-    items.sort((a, b) => {
-        const valA = parseFloat(a.querySelector('.value').innerText);
-        const valB = parseFloat(b.querySelector('.value').innerText);
-        return ascending ? valA - valB : valB - valA;
-    });
-
-    dataList.innerHTML = "";
-    items.forEach(item => dataList.appendChild(item));
-}
-
-if (sortAscBtn) sortAscBtn.addEventListener('click', () => sortData(true));
-if (sortDescBtn) sortDescBtn.addEventListener('click', () => sortData(false));
-
-// CLEAR DATA
-const clearBtn = document.querySelector('.clear-btn');
-if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-        dataList.innerHTML = "";
-        updateTotalCount();
-    });
-}
-
-// --- MAO NI SA GRAPH (PROFESSIONAL UPDATE) ---
-let myChart = null; 
-
-function updateGraph(data) {
+function updateGraph(numbers) {
     const canvas = document.getElementById('frequencyChart');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
 
-    // Process Frequency Data
+    if (myChart) { myChart.destroy(); myChart = null; }
+    if (!numbers.length) return;
+
     const counts = {};
-    data.forEach(num => counts[num] = (counts[num] || 0) + 1);
-    const labels = Object.keys(counts).sort((a, b) => a - b);
-    const values = labels.map(label => counts[label]);
+    numbers.forEach(n => { counts[n] = (counts[n] || 0) + 1; });
+    const labels = Object.keys(counts).map(Number).sort((a, b) => a - b);
+    const values = labels.map(l => counts[l]);
 
-    if (myChart) {
-        myChart.destroy();
-    }
-
-    myChart = new Chart(ctx, {
+    myChart = new Chart(canvas.getContext('2d'), {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Frequency',
                 data: values,
-                backgroundColor: '#319795', // Matches your --teal-primary
+                backgroundColor: '#319795',
                 borderRadius: 4,
-                barPercentage: 0.6 
+                barPercentage: 0.6
             }]
         },
         options: {
@@ -197,12 +176,13 @@ function updateGraph(data) {
                 title: {
                     display: true,
                     text: 'Frequency Distribution Bar Graph',
-                    font: { size: 16, weight: 'bold', family: "'Segoe UI', sans-serif" }
+                    font: { size: 14, weight: 'bold', family: "'Segoe UI', sans-serif" }
                 }
             },
             scales: {
                 y: {
                     beginAtZero: true,
+                    ticks: { stepSize: 1 },
                     grid: { color: '#edf2f7' },
                     title: { display: true, text: 'Frequency', font: { weight: 'bold' } }
                 },
@@ -215,53 +195,118 @@ function updateGraph(data) {
     });
 }
 
-// --- CALCULATE STATISTICS & UPDATE GRAPH ---
-const calculateBtn = document.querySelector('.calculate-btn');
+// ─────────────────────────────────────────────
+//  FREQUENCY TABLE
+// ─────────────────────────────────────────────
+function updateFrequencyTable(numbers) {
+    const tbody = document.querySelector('.frequency-table-card tbody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    if (!numbers.length) return;
 
-calculateBtn.addEventListener('click', () => {
-    const dataItems = document.querySelectorAll('.data-item .value');
-    const numbers = Array.from(dataItems).map(span => parseFloat(span.innerText));
+    const counts = {};
+    numbers.forEach(n => { counts[n] = (counts[n] || 0) + 1; });
+    Object.keys(counts).map(Number).sort((a, b) => a - b).forEach(val => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${val}</td><td>${counts[val]}</td>`;
+        tbody.appendChild(tr);
+    });
+}
 
-    if (numbers.length === 0) {
-        alert("Please add some data first!");
+// ─────────────────────────────────────────────
+//  STATISTICS
+// ─────────────────────────────────────────────
+function calcMode(nums) {
+    const freq = {};
+    nums.forEach(n => { freq[n] = (freq[n] || 0) + 1; });
+    const max = Math.max(...Object.values(freq));
+    if (max === 1) return null;
+    return Object.keys(freq).filter(k => freq[k] === max).map(Number).sort((a,b)=>a-b);
+}
+
+function calcSampleVariance(nums, mean) {
+    if (nums.length < 2) return 0;
+    return nums.reduce((s, x) => s + (x - mean) ** 2, 0) / (nums.length - 1);
+}
+
+function calcPopVariance(nums, mean) {
+    return nums.reduce((s, x) => s + (x - mean) ** 2, 0) / nums.length;
+}
+
+// ─────────────────────────────────────────────
+//  MAIN AUTO-CALCULATE
+// ─────────────────────────────────────────────
+function setCard(sel, val) {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = val;
+}
+
+function runCalculations() {
+    const numbers = getNumbers();
+
+    if (!numbers.length) {
+        setCard('.result-card.mean   .value', '0.00');
+        setCard('.result-card.median .value', '0.00');
+        setCard('.result-card.mode   .value', '--');
+        setCard('.result-card.range  .value', '0');
+        document.querySelectorAll('.result-card.variance').forEach(c => c.querySelector('.value').textContent = '0.00');
+        document.querySelectorAll('.result-card.sd')      .forEach(c => c.querySelector('.value').textContent = '0.00');
+        updateGraph([]);
+        updateFrequencyTable([]);
+        const steps = document.querySelector('.median-steps .steps-list');
+        if (steps) steps.innerHTML = '';
         return;
     }
 
-    // 1. Visual Updates
+    const n      = numbers.length;
+    const sorted = [...numbers].sort((a, b) => a - b);
+    const mean   = numbers.reduce((a, b) => a + b, 0) / n;
+    const median = n % 2 === 0
+        ? (sorted[n/2 - 1] + sorted[n/2]) / 2
+        : sorted[Math.floor(n/2)];
+    const modes     = calcMode(numbers);
+    const range     = Math.max(...numbers) - Math.min(...numbers);
+    const sVar      = calcSampleVariance(numbers, mean);
+    const pVar      = calcPopVariance(numbers, mean);
+    const sSD       = Math.sqrt(sVar);
+    const pSD       = Math.sqrt(pVar);
+
+    setCard('.result-card.mean   .value', mean.toFixed(2));
+    setCard('.result-card.median .value', median.toFixed(2));
+    setCard('.result-card.mode   .value', modes ? modes.join(', ') : 'No Mode');
+    setCard('.result-card.range  .value', range);
+
+    const vCards = document.querySelectorAll('.result-card.variance');
+    vCards[0].querySelector('.value').textContent = sVar.toFixed(2);
+    vCards[1].querySelector('.value').textContent = pVar.toFixed(2);
+
+    const sdCards = document.querySelectorAll('.result-card.sd');
+    sdCards[0].querySelector('.value').textContent = sSD.toFixed(2);
+    sdCards[1].querySelector('.value').textContent = pSD.toFixed(2);
+
     updateGraph(numbers);
     updateFrequencyTable(numbers);
 
-    // 2. Mean, Median, Range Logic (Left exactly as you requested)
-    const mean = numbers.reduce((a, b) => a + b, 0) / numbers.length;
-    const sorted = [...numbers].sort((a, b) => a - b);
-    const median = sorted.length % 2 === 0 
-        ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2 
-        : sorted[Math.floor(sorted.length / 2)];
-
-    document.querySelector('.result-card.mean .value').textContent = mean.toFixed(2);
-    document.querySelector('.result-card.median .value').textContent = median.toFixed(2);
-    
-    const range = Math.max(...numbers) - Math.min(...numbers);
-    document.querySelector('.result-card.range .value').textContent = range;
-});
-
-/**
- * Updates the Table below the graph
- */
-function updateFrequencyTable(data) {
-    const tbody = document.querySelector('.frequency-table-card tbody');
-    if (!tbody) return;
-    tbody.innerHTML = ''; 
-
-    const counts = {};
-    data.forEach(num => counts[num] = (counts[num] || 0) + 1);
-    const sortedUnique = Object.keys(counts).sort((a, b) => a - b);
-
-    sortedUnique.forEach(val => {
-        const row = `<tr>
-            <td>${val}</td>
-            <td>${counts[val]}</td>
-        </tr>`;
-        tbody.innerHTML += row;
-    });
+    // Median steps
+    const stepsList = document.querySelector('.median-steps .steps-list');
+    if (stepsList) {
+        stepsList.innerHTML = '';
+        const steps = [
+            `<span class="icon">①</span> Sorted: [ ${sorted.join(', ')} ]`,
+            `<span class="icon">②</span> n = ${n} (${n % 2 === 0 ? 'even' : 'odd'})`,
+            n % 2 === 0
+                ? `<span class="icon">③</span> (${sorted[n/2-1]} + ${sorted[n/2]}) / 2 = <strong>${median.toFixed(2)}</strong>`
+                : `<span class="icon">③</span> Middle value at position ${Math.floor(n/2)+1} = <strong>${median.toFixed(2)}</strong>`
+        ];
+        steps.forEach(s => {
+            const li = document.createElement('li');
+            li.innerHTML = s;
+            stepsList.appendChild(li);
+        });
+    }
 }
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+updateBadge();
