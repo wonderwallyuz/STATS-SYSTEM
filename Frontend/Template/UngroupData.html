@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ungrouped Data Statistics Calculator</title>
     <link rel="stylesheet" href="../Css/UngroupData.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -14,10 +16,11 @@
         </header>
 
         <div class="panels-container">
+
+            <!-- ── PANEL 1: DATA INPUT ── -->
             <div class="panel input-panel">
                 <div class="panel-header">
                     <h2>1. DATA INPUT</h2>
-                    <span class="settings-icon">⚙️</span>
                 </div>
 
                 <div class="input-form">
@@ -26,69 +29,22 @@
                         <p class="subtext">Type a input and manually numbers</p>
                         <input type="text" placeholder="e.g., 12">
                     </div>
-                    <button class="add-value-btn">Add Value</button>
 
-                     <button class="import-excel-btn" onclick="document.getElementById('excelFile').click()">
-        Import Excel
-    </button>
-
-    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden>
-
-</div>
-
-<div id="excelError" class="excel-error-box"></div>
+                    <div class="button-row" style="display: flex; gap: 10px;">
+                        <button class="add-value-btn">Add Value</button>
+                        <input type="file" id="excel-upload" accept=".xlsx, .xls, .csv" style="display: none;">
+                        <button type="button" class="add-value-btn" onclick="document.getElementById('excel-upload').click()">
+                            Import Excel
+                        </button>
+                    </div>
                 </div>
 
                 <div class="data-set-section">
                     <div class="section-header">
                         <h3>Current Data Set</h3>
-                        <span class="total-values-badge">Total values: 6</span>
+                        <span class="total-values-badge">Total values: 0</span>
                     </div>
-                    
-                    <ul class="data-list">
-                        <li class="data-item">
-                            <span class="value">12</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                        <li class="data-item">
-                            <span class="value">15</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                        <li class="data-item">
-                            <span class="value">18</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                        <li class="data-item">
-                            <span class="value">20</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                        <li class="data-item">
-                            <span class="value">25</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                        <li class="data-item">
-                            <span class="value">30</span>
-                            <div class="actions">
-                                <span class="edit">✏️ Edit</span>
-                                <span class="remove">🗑️ Remove</span>
-                            </div>
-                        </li>
-                    </ul>
+                    <ul class="data-list"></ul>
                 </div>
 
                 <div class="action-buttons">
@@ -110,91 +66,58 @@
 
             </div>
 
+            <!-- ── PANEL 2: CALCULATED RESULTS ── -->
             <div class="panel results-panel">
                 <div class="panel-header">
                     <h2>2. CALCULATED RESULTS</h2>
-                    <span class="settings-icon">⚙️</span>
                 </div>
 
                 <div class="results-grid">
                     <div class="result-card mean">
                         <span class="label">MEAN (X̄)</span>
-                        <span class="value">20.00</span>
+                        <span class="value">0.00</span>
                     </div>
                     <div class="result-card median">
                         <span class="label">MEDIAN (Med)</span>
-                        <span class="value">19.00</span>
+                        <span class="value">0.00</span>
                     </div>
                     <div class="result-card mode">
                         <span class="label">MODE (Mo)</span>
-                        <span class="value">12</span>
+                        <span class="value">--</span>
                     </div>
-
                     <div class="result-card range">
                         <span class="label">RANGE (R)</span>
-                        <span class="value">18</span>
+                        <span class="value">0</span>
                     </div>
                     <div class="result-card variance">
                         <span class="label">SAMPLE VARIANCE (s²)</span>
-                        <span class="value">43.20</span>
+                        <span class="value">0.00</span>
                     </div>
                     <div class="result-card variance">
                         <span class="label">POPULATION VARIANCE (σ²)</span>
-                        <span class="value">36.00</span>
+                        <span class="value">0.00</span>
                     </div>
-
                     <div class="result-card sd">
                         <span class="label">SAMPLE STANDARD DEVIATION (s)</span>
-                        <span class="value">6.57</span>
+                        <span class="value">0.00</span>
                     </div>
                     <div class="result-card sd">
                         <span class="label">POPULATION STANDARD DEVIATION (σ)</span>
-                        <span class="value">6.00</span>
-                    </div>
-
-                    <div class="result-card quartiles">
-                        <span class="label">QUARTILES</span>
-                        <div class="q-values">
-                            <div class="q-box q1">
-                                <span class="q-label">Q1</span>
-                                <span class="q-val">15</span>
-                            </div>
-                            <div class="q-box q2">
-                                <span class="q-label">Q2</span>
-                                <span class="q-val">19</span>
-                            </div>
-                            <div class="q-box q3">
-                                <span class="q-label">Q3</span>
-                                <span class="q-val">25</span>
-                            </div>
-                        </div>
+                        <span class="value">0.00</span>
                     </div>
                 </div>
+            </div>
 
-                <div class="display-settings">
-                    <h3>DISPLAY SETTINGS</h3>
-                    <div class="toggles">
-                        <div class="toggle-group">
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="toggle-label">Show Step-by-Step Solution</span>
-                        </div>
-                        <div class="toggle-group">
-                            <label class="switch">
-                                <input type="checkbox" checked>
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="toggle-label">Show Formulas Used</span>
-                        </div>
-                        <div class="toggle-group">
-                            <label class="switch">
-                                <input type="checkbox">
-                                <span class="slider round"></span>
-                            </label>
-                            <span class="toggle-label">Show Frequency Table</span>
-                        </div>
+            <!-- ── PANEL 3: GRAPH, TABLE & MEDIAN ── -->
+            <div class="panel visual-panel">
+                <div class="panel-header">
+                    <h2>3. DATA VISUALIZATION</h2>
+                </div>
+
+                <div class="graph-card">
+                    <h3>DATA DISTRIBUTION GRAPH</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="frequencyChart"></canvas>
                     </div>
                 </div>
 
@@ -207,32 +130,21 @@
                                 <th>Frequency</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr><td>12</td><td>1</td></tr>
-                            <tr><td>15</td><td>1</td></tr>
-                            <tr><td>18</td><td>2</td></tr>
-                            <tr><td>20</td><td>1</td></tr>
-                            <tr><td>25</td><td>1</td></tr>
-                            <tr><td>30</td><td>1</td></tr>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
 
                 <div class="solution-details">
                     <div class="solution-item median-steps">
                         <h4>Median</h4>
-                        <ul class="steps-list">
-                            <li><span class="icon">ℹ️</span> Order the data: 12, 15, 18, 20, 25, 30.</li>
-                            <li><span class="icon">ℹ️</span> There are 6 values.</li>
-                            <li><span class="icon">ℹ️</span> The median is the average of the 3rd and 4th: (18+20)/2 = 19.</li>
-                        </ul>
+                        <ul class="steps-list"></ul>
                     </div>
                 </div>
-
-                <button class="calculate-btn">Calculate Statistics</button>
             </div>
+
         </div>
     </div>
-<script src="../Js/UngroupData.js"></script>
+
+    <script src="../Js/index.js"></script>
 </body>
 </html>
