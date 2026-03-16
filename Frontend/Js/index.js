@@ -217,11 +217,18 @@ function updateFrequencyTable(numbers) {
 //  STATISTICS
 // ─────────────────────────────────────────────
 function calcMode(nums) {
+    // Single value — it is its own mode
+    if (nums.length === 1) return [nums[0]];
+
     const freq = {};
     nums.forEach(n => { freq[n] = (freq[n] || 0) + 1; });
     const max = Math.max(...Object.values(freq));
+
+    // Every value appears exactly once — no mode
     if (max === 1) return null;
-    return Object.keys(freq).filter(k => freq[k] === max).map(Number).sort((a,b)=>a-b);
+
+    // One or more values tied at the highest frequency
+    return Object.keys(freq).filter(k => freq[k] === max).map(Number).sort((a, b) => a - b);
 }
 
 function calcSampleVariance(nums, mean) {
@@ -273,7 +280,7 @@ function runCalculations() {
 
     setCard('.result-card.mean   .value', mean.toFixed(2));
     setCard('.result-card.median .value', median.toFixed(2));
-    setCard('.result-card.mode   .value', modes ? modes.join(', ') : 'No Mode');
+    setCard('.result-card.mode   .value', modes ? modes.join(', ') : 'N/A');
     setCard('.result-card.range  .value', range);
 
     const vCards = document.querySelectorAll('.result-card.variance');
