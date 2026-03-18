@@ -414,7 +414,7 @@ function renderAutoTable() {
 
     // Handle empty data state
     if (!groupedData || groupedData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#999;">No data to display</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#999;">No data to display</td></tr>`;
         return;
     }
 
@@ -441,7 +441,7 @@ function renderAutoTable() {
             <td>${midpoint}</td>
             <td>${fx.toFixed(2)}</td>
             <td>${cumulativeFrequency}</td>
-            <td><input type="checkbox"></td>
+            
         `;
         tbody.appendChild(row);
     });
@@ -513,7 +513,7 @@ function generateAutoTable() {
             <td>${midpoint}</td>
             <td>${fx.toFixed(2)}</td>
             <td>${cumulativeF}</td>
-            <td><input type="checkbox"></td>
+           
         `;
         tbody.appendChild(row);
     });
