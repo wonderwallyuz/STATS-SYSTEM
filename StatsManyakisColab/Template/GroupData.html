@@ -49,12 +49,14 @@
                 <button class="add-row-btn" onclick="addRow()">Add Row</button>
 
                 <div class="excel-import-section">
-                    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden>
-                    <button class="import-excel-btn" onclick="document.getElementById('excelFile').click()">
-                        Import Excel
-                    </button>
-                <div id="excelError" class="excel-error-box"></div>
-                </div>
+    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden>
+
+    <button class="import-excel-btn" onclick="document.getElementById('excelFile').click()">
+        Import Excel
+    </button>
+
+    <div id="excelError" class="excel-error-box"></div>
+</div>
             </div>
 
             <div class="added-intervals">
@@ -104,100 +106,62 @@
                 <div class="result-cards">
                     <div class="result-card mean card-mean">
                         <div class="card-header">MEAN (X)</div>
-                        <div class="result-value">20.00</div>
+                        <div class="result-value"></div>
                         <div class="result-formula">X = ( Σ f ⋅ x ) / n</div>
                         <div class="note">* calculated in example data</div>
                     </div>
                     
                     <div class="result-card median card-median">
                         <div class="card-header">MEDIAN (Med)</div>
-                        <div class="result-value">19.00</div>
+                        <div class="result-value"></div>
                         <div class="result-formula">Med = L + [ (n/2 - cf) / fm ] * c</div>
                         <div class="note">comming of median: L</div>
                     </div>
                     
                     <div class="result-card mode card-mode">
                         <div class="card-header">MODE (Mo)</div>
-                        <div class="result-value">12</div>
+                        <div class="result-value"></div>
                         <div class="result-formula">Mo = L + [ (f1 - f0) / ( (f1 - f0) + (f1 - f2) ) ] * c</div>
                     </div>
                     
                     <div class="result-card variance">
-                        <div class="card-header">VARIANCE (s²)</div>
-                        <div class="result-value">43.20</div>
-                    </div>
-                    
-                    <div class="result-card sd">
-                        <div class="card-header">STANDARD DEVIATION (s)</div>
-                        <div class="result-value">6.57</div>
-                    </div>
+    <div class="card-header">VARIANCE (s²)</div>
+    <div class="result-value"></div>
+    <div class="result-formula">s² = Σ f(x - X)² / (n - 1)</div>
+</div>
+
+<div class="result-card sd">
+    <div class="card-header">STANDARD DEVIATION (s)</div>
+    <div class="result-value"></div>
+    <div class="result-formula">s = √s²</div>
+</div>
                 </div>
             </div>
 
             <div class="auto-table-section">
-                <h2>3. AUTO-GENERATED TABLE</h2>
-                <div class="auto-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Class Interval</th>
-                                <th>Frequency (f)</th>
-                                <th>Class Width</th>
-                                <th>Midpoint (x)</th>
-                                <th>f ⋅ x</th>
-                                <th>Cumulative f</th>
-                                <th>⚙️</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>10-19</td>
-                                <td>5 <span class="edit-in-table">✏️</span></td>
-                                <td>9</td>
-                                <td>14.5</td>
-                                <td>72.5 <span class="edit-in-table">✏️</span></td>
-                                <td>5</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                            <tr>
-                                <td>20-29</td>
-                                <td>8 <span class="edit-in-table">✏️</span></td>
-                                <td>9</td>
-                                <td>24.5</td>
-                                <td>196 <span class="edit-in-table">✏️</span></td>
-                                <td>13</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                            <tr>
-                                <td>30-39</td>
-                                <td>6 <span class="edit-in-table">✏️</span></td>
-                                <td>9</td>
-                                <td>34.5</td>
-                                <td>207 <span class="edit-in-table">✏️</span></td>
-                                <td>19</td>
-                                <td><input type="checkbox"></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td><strong>Total</strong></td>
-                                <td><strong>Σ f=19</strong></td>
-                                <td></td>
-                                <td></td>
-                                <td><strong>Σ f⋅x=475.5</strong></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
+    <h2>3. AUTO-GENERATED TABLE</h2>
+    <div class="auto-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Class Interval</th>
+                    <th>Frequency (f)</th>
+                    <th>Class Width</th>
+                    <th>Midpoint (x)</th>
+                    <th>f ⋅ x</th>
+                    <th>Cumulative f</th>
+                    <th>⚙️</th>
+                </tr>
+            </thead>
+            <tbody id="autoTableBody">
+                </tbody>
+            <tfoot id="autoTableFooter">
+                </tfoot>
+        </table>
+    </div>
+</div>
 
-            
 
-            <div class="final-actions">
-                <button class="generate-btn">Generate Analysis</button>
-            </div>
 
             <div class="graph-section">
                 <div class="panel-header">
@@ -219,7 +183,7 @@
         </div>
     </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 <script src="../Js/GroupData.js"></script>
 </body>
 </html>
